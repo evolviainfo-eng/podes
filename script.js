@@ -185,6 +185,22 @@
     });
   });
 
+  /* ---------- gallery show-more (mobile) ---------- */
+  var galToggle = document.querySelector('.gallery-toggle');
+  var galleryEl = document.getElementById('gallery');
+  if (galToggle && galleryEl) {
+    galleryEl.classList.add('is-collapsed');
+    galToggle.addEventListener('click', function () {
+      var collapsed = galleryEl.classList.toggle('is-collapsed');
+      galToggle.setAttribute('aria-expanded', String(!collapsed));
+      galToggle.textContent = collapsed ? 'Rodyti visus darbus' : 'Rodyti mažiau';
+      if (!collapsed) {
+        // newly shown thumbs must not stay stuck at opacity:0
+        galleryEl.querySelectorAll('.g-item').forEach(function (el) { el.classList.add('in'); });
+      }
+    });
+  }
+
   /* ---------- contact form ---------- */
   var form = document.getElementById('quote-form');
   if (form) {
