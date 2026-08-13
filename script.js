@@ -1,268 +1,284 @@
-/* =========================================================
-   PODES — interactions
-   Vanilla, dependency-free. Respects prefers-reduced-motion.
-   ========================================================= */
+/* Podes — smooth scroll, reveals, drawing, nav, lightbox, form.
+   Fail-to-visible everywhere; the all-in hammer only fires if this file never ran. */
 (function () {
   'use strict';
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  window.__podesJS = true;
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- smooth scroll (Lenis, lerp-based per approved config) ---------- */
+  var lenis = null;
+  if (!reduced && typeof Lenis === 'function') {
+    lenis = new Lenis({ lerp: 0.1, smoothWheel: true, syncTouch: false });
+    (function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    })(0);
+  }
+
+  /* anchor navigation works with or without Lenis */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(target, { offset: -72 });
+    else target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+  });
 
   /* ---------- year ---------- */
-  var y = document.getElementById('year');
-  if (y) y.textContent = new Date().getFullYear();
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   /* ---------- header scrolled state ---------- */
   var header = document.querySelector('.site-header');
-  var onScrollHeader = function () {
-    if (window.scrollY > 40) header.classList.add('scrolled');
-    else header.classList.remove('scrolled');
-  };
-  onScrollHeader();
-  window.addEventListener('scroll', onScrollHeader, { passive: true });
+  function onScroll() {
+    if (header) header.classList.toggle('scrolled', window.scrollY > 24);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- hero intro + parallax ---------- */
+  var hero = document.querySelector('.hero');
+  var heroMedia = document.querySelector('.hero-media');
+
+  if (hero) {
+    if (reduced) {
+      hero.classList.add('hero-in');
+    } else {
+      /* let first paint land, then run the one-time intro; the timeout covers
+         rAF starvation in background tabs */
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { hero.classList.add('hero-in'); });
+      });
+      setTimeout(function () { hero.classList.add('hero-in'); }, 450);
+    }
+  }
+
+  if (!reduced && heroMedia && window.matchMedia('(min-width: 1024px)').matches) {
+    var heroImg = heroMedia.querySelector('img');
+    heroMedia.classList.add('px');
+    var pxTicking = false;
+    function parallax() {
+      pxTicking = false;
+      var h = hero.offsetHeight || 1;
+      var y = Math.min(Math.max(window.scrollY, 0), h);
+      heroImg.style.transform = 'translate3d(0,' + (-(y / h) * 7).toFixed(2) + '%,0)';
+    }
+    window.addEventListener('scroll', function () {
+      if (!pxTicking) { pxTicking = true; requestAnimationFrame(parallax); }
+    }, { passive: true });
+    parallax();
+  }
 
   /* ---------- mobile nav ---------- */
   var toggle = document.querySelector('.nav-toggle');
   var mobileNav = document.getElementById('mobile-nav');
   if (toggle && mobileNav) {
-    var setNav = function (open) {
-      toggle.setAttribute('aria-expanded', String(open));
-      if (open) { mobileNav.hidden = false; requestAnimationFrame(function () { mobileNav.classList.add('open'); }); }
-      else { mobileNav.classList.remove('open'); mobileNav.hidden = true; }
-      toggle.setAttribute('aria-label', open ? 'Uždaryti meniu' : 'Atidaryti meniu');
-    };
     toggle.addEventListener('click', function () {
-      setNav(toggle.getAttribute('aria-expanded') !== 'true');
+      var open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      mobileNav.hidden = open;
     });
-    mobileNav.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () { setNav(false); });
+    mobileNav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        toggle.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+      }
     });
   }
 
-  /* ---------- reveal on scroll (staggered) ---------- */
+  /* ---------- reveals + drawing ---------- */
   var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
-  if (reduce || !('IntersectionObserver' in window)) {
+  var act = document.querySelector('.act');
+  var ioAlive = false;
+
+  function showAll() {
     reveals.forEach(function (el) { el.classList.add('in'); });
-  } else {
-    // stagger index among reveal siblings sharing a parent
-    var seen = new Map();
+    if (act) act.classList.add('drawn');
+  }
+
+  /* safety: reveal only what is on screen — a blanket showAll would erase
+     every scroll animation below the fold before the user scrolls */
+  function revealVisible() {
+    var vh = window.innerHeight;
     reveals.forEach(function (el) {
-      var p = el.parentElement;
-      var n = seen.get(p) || 0;
-      el.dataset._idx = n;
-      seen.set(p, n + 1);
+      if (el.classList.contains('in')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < vh && r.bottom > 0) el.classList.add('in');
     });
+    if (act && !act.classList.contains('drawn')) {
+      var ar = act.getBoundingClientRect();
+      if (ar.top < vh && ar.bottom > 0) act.classList.add('drawn');
+    }
+  }
+
+  if (reduced || !('IntersectionObserver' in window)) {
+    showAll();
+  } else {
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          var idx = parseInt(e.target.dataset._idx || '0', 10);
-          e.target.style.transitionDelay = Math.min(idx * 70, 420) + 'ms';
-          e.target.classList.add('in');
-          io.unobserve(e.target);
+      ioAlive = true;
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
     reveals.forEach(function (el) { io.observe(el); });
-  }
 
-  /* ---------- self-drawing aluminium frame ---------- */
-  function setupFrame(sel) {
-    var svg = document.querySelector(sel);
-    if (!svg) return;
-    var lines = svg.querySelectorAll('.fl');
-    lines.forEach(function (ln) {
-      var len = 0;
-      try { len = ln.getTotalLength(); } catch (e) { len = 2000; }
-      ln.style.strokeDasharray = len;
-      ln.style.strokeDashoffset = reduce ? 0 : len;
-      ln.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1)';
+    if (act) {
+      var actIo = new IntersectionObserver(function (entries) {
+        ioAlive = true;
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            act.classList.add('drawn');
+            actIo.disconnect();
+          }
+        });
+      }, { threshold: 0.35 });
+      actIo.observe(act);
+    }
+
+    window.addEventListener('load', function () {
+      setTimeout(function () { if (ioAlive) revealVisible(); else showAll(); }, 2500);
     });
-    if (reduce) return;
-    var drawn = false;
-    var draw = function () {
-      if (drawn) return; drawn = true;
-      lines.forEach(function (ln, i) {
-        setTimeout(function () { ln.style.strokeDashoffset = 0; }, i * 180);
-      });
-    };
-    var fio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { draw(); fio.disconnect(); } });
-    }, { threshold: 0.25 });
-    fio.observe(svg);
-  }
-  setupFrame('.hero-frame');
-  setupFrame('.threshold-frame');
-
-  /* ---------- subtle parallax (hero + threshold) ---------- */
-  if (!reduce) {
-    var pHero = document.querySelector('.hero-media img');
-    var pThresh = document.querySelector('.threshold img');
-    var ticking = false;
-    var parallax = function () {
-      ticking = false;
-      if (pHero) {
-        var hr = pHero.closest('.hero').getBoundingClientRect();
-        if (hr.bottom > 0 && hr.top < window.innerHeight) {
-          pHero.style.transform = 'translateY(' + (-hr.top * 0.12) + 'px) scale(1.06)';
-        }
-      }
-      if (pThresh) {
-        var tr = pThresh.closest('.threshold').getBoundingClientRect();
-        if (tr.bottom > 0 && tr.top < window.innerHeight) {
-          var prog = (tr.top - window.innerHeight) / (tr.height + window.innerHeight);
-          pThresh.style.transform = 'translateY(' + (prog * 60) + 'px) scale(1.12)';
-        }
-      }
-    };
-    window.addEventListener('scroll', function () {
-      if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
-    }, { passive: true });
-    parallax();
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) setTimeout(revealVisible, 600);
+    });
   }
 
-  /* ---------- lightbox gallery ---------- */
+  /* ---------- gallery expand / collapse ---------- */
+  var galleryEl = document.querySelector('.gallery');
+  var moreBtn = document.querySelector('.gallery-more');
+  if (galleryEl && moreBtn) {
+    moreBtn.addEventListener('click', function () {
+      var collapsed = galleryEl.classList.toggle('collapsed');
+      moreBtn.setAttribute('aria-expanded', String(!collapsed));
+      moreBtn.textContent = collapsed ? 'Rodyti visus darbus' : 'Suskleisti galeriją';
+      if (collapsed) {
+        var darbai = document.getElementById('darbai');
+        if (lenis) lenis.scrollTo(darbai, { offset: -72 });
+        else darbai.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+      }
+    });
+  }
+
+  /* ---------- mobile call bar ---------- */
+  var callBar = document.querySelector('.call-bar');
+  var contactEl = document.getElementById('kontaktai');
+  if (callBar && hero && contactEl && 'IntersectionObserver' in window) {
+    var heroVisible = true, contactVisible = false;
+    function updateBar() {
+      callBar.hidden = heroVisible || contactVisible;
+    }
+    new IntersectionObserver(function (entries) {
+      heroVisible = entries[0].isIntersecting; updateBar();
+    }, { threshold: 0.1 }).observe(hero);
+    new IntersectionObserver(function (entries) {
+      contactVisible = entries[0].isIntersecting; updateBar();
+    }, { threshold: 0.05 }).observe(contactEl);
+  }
+
+  /* ---------- lightbox ---------- */
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbCap = document.getElementById('lb-cap');
   var items = Array.prototype.slice.call(document.querySelectorAll('.g-item'));
-  var lb = document.getElementById('lightbox');
-  if (lb && items.length) {
-    var lbImg = document.getElementById('lb-img');
-    var lbCap = document.getElementById('lb-cap');
-    var btnClose = lb.querySelector('.lb-close');
-    var btnPrev = lb.querySelector('.lb-prev');
-    var btnNext = lb.querySelector('.lb-next');
-    var current = 0;
-    var lastFocus = null;
+  var current = 0;
 
-    var show = function (i) {
-      current = (i + items.length) % items.length;
-      var it = items[current];
-      lbImg.src = it.getAttribute('data-src');
-      lbImg.alt = it.querySelector('img') ? it.querySelector('img').alt : '';
-      lbCap.textContent = it.getAttribute('data-cap') || '';
-    };
-    var open = function (i) {
-      lastFocus = document.activeElement;
-      show(i);
-      lb.hidden = false;
-      lb.setAttribute('aria-hidden', 'false');
-      requestAnimationFrame(function () { lb.classList.add('open'); });
-      document.body.style.overflow = 'hidden';
-      btnClose.focus();
-    };
-    var close = function () {
-      lb.classList.remove('open');
-      lb.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      setTimeout(function () { lb.hidden = true; lbImg.src = ''; }, 320);
-      if (lastFocus) lastFocus.focus();
-    };
-
-    items.forEach(function (it, i) {
-      it.setAttribute('tabindex', '0');
-      it.setAttribute('role', 'button');
-      it.setAttribute('aria-label', 'Atidaryti nuotrauką: ' + (it.getAttribute('data-cap') || ''));
-      it.addEventListener('click', function () { open(i); });
-      it.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+  function openLb(i) {
+    current = (i + items.length) % items.length;
+    var img = items[current].querySelector('img');
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    lbCap.textContent = items[current].getAttribute('data-cap') || '';
+    if (lightbox.hidden) {
+      lightbox.hidden = false;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { lightbox.classList.add('show'); });
       });
+    }
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (lenis) lenis.stop();
+  }
+  function closeLb() {
+    lightbox.classList.remove('show');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lenis) lenis.start();
+    setTimeout(function () { lightbox.hidden = true; }, 210);
+  }
+
+  if (lightbox && items.length) {
+    items.forEach(function (item, i) {
+      item.addEventListener('click', function () { openLb(i); });
     });
-    btnClose.addEventListener('click', close);
-    btnPrev.addEventListener('click', function () { show(current - 1); });
-    btnNext.addEventListener('click', function () { show(current + 1); });
-    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+    lightbox.querySelector('.lb-close').addEventListener('click', closeLb);
+    lightbox.querySelector('.lb-prev').addEventListener('click', function () { openLb(current - 1); });
+    lightbox.querySelector('.lb-next').addEventListener('click', function () { openLb(current + 1); });
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) closeLb();
+    });
     document.addEventListener('keydown', function (e) {
-      if (lb.hidden) return;
-      if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowLeft') show(current - 1);
-      else if (e.key === 'ArrowRight') show(current + 1);
+      if (lightbox.hidden) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft') openLb(current - 1);
+      if (e.key === 'ArrowRight') openLb(current + 1);
     });
   }
 
-  /* ---------- FAQ: subtle accessible accordion ---------- */
-  var faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(function (d) {
-    d.addEventListener('toggle', function () {
-      if (d.open) {
-        faqItems.forEach(function (o) { if (o !== d) o.open = false; });
-      }
-    });
-  });
-
-  /* ---------- gallery show-more (mobile) ---------- */
-  var galToggle = document.querySelector('.gallery-toggle');
-  var galleryEl = document.getElementById('gallery');
-  if (galToggle && galleryEl) {
-    galleryEl.classList.add('is-collapsed');
-    galToggle.addEventListener('click', function () {
-      var collapsed = galleryEl.classList.toggle('is-collapsed');
-      galToggle.setAttribute('aria-expanded', String(!collapsed));
-      galToggle.textContent = collapsed ? 'Rodyti visus darbus' : 'Rodyti mažiau';
-      if (!collapsed) {
-        // newly shown thumbs must not stay stuck at opacity:0
-        galleryEl.querySelectorAll('.g-item').forEach(function (el) { el.classList.add('in'); });
-      }
-    });
-  }
-
-  /* ---------- contact form ---------- */
+  /* ---------- form ---------- */
   var form = document.getElementById('quote-form');
-  if (form) {
-    var status = document.getElementById('form-status');
-    var showErr = function (name, msg) {
-      var input = form.querySelector('[name="' + name + '"]');
-      var slot = form.querySelector('.err[data-for="' + name + '"]');
-      if (slot) slot.textContent = msg || '';
-      if (input) input.setAttribute('aria-invalid', msg ? 'true' : 'false');
-    };
-    var clearErrs = function () { ['name', 'phone', 'email'].forEach(function (n) { showErr(n, ''); }); };
+  var status = document.getElementById('form-status');
 
+  function setErr(name, msg) {
+    var field = form.querySelector('[name="' + name + '"]').closest('.field');
+    var err = field.querySelector('.err');
+    field.classList.toggle('invalid', !!msg);
+    if (err) err.textContent = msg || '';
+  }
+
+  if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      clearErrs();
-      status.textContent = '';
-      status.className = 'form-status';
-
       var name = form.name.value.trim();
       var phone = form.phone.value.trim();
-      var email = form.email.value.trim();
       var message = form.message.value.trim();
-      var firstBad = null;
+      var ok = true;
 
-      if (!name) { showErr('name', 'Įveskite vardą.'); firstBad = firstBad || form.name; }
-      if (!phone || phone.replace(/[^0-9]/g, '').length < 6) { showErr('phone', 'Įveskite telefono numerį.'); firstBad = firstBad || form.phone; }
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('email', 'Patikrinkite el. pašto adresą.'); firstBad = firstBad || form.email; }
+      if (!name) { setErr('name', 'Įrašykite vardą'); ok = false; } else setErr('name', '');
+      if (!phone || phone.replace(/\D/g, '').length < 8) {
+        setErr('phone', 'Įrašykite telefono numerį'); ok = false;
+      } else setErr('phone', '');
+      if (!ok) return;
 
-      if (firstBad) { firstBad.focus(); return; }
-
-      var action = form.getAttribute('action') || '';
-      var configured = action.indexOf('formspree.io') !== -1 && action.indexOf('your-form-id') === -1;
-
-      if (configured) {
-        status.textContent = 'Siunčiama…';
-        fetch(action, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form)
-        }).then(function (r) {
-          if (r.ok) {
-            form.reset();
-            status.textContent = 'Ačiū! Gavome jūsų užklausą ir netrukus susisieksime.';
-            status.classList.add('ok');
-          } else { throw new Error('bad'); }
-        }).catch(function () {
-          mailtoFallback(name, phone, email, message);
-        });
-      } else {
-        mailtoFallback(name, phone, email, message);
+      var isPlaceholder = form.action.indexOf('your-form-id') !== -1;
+      if (isPlaceholder) {
+        var body = 'Vardas: ' + name + '\nTelefonas: ' + phone + (message ? '\n\n' + message : '');
+        window.location.href = 'mailto:podessistemos@gmail.com'
+          + '?subject=' + encodeURIComponent('Užklausa dėl pasiūlymo — ' + name)
+          + '&body=' + encodeURIComponent(body);
+        status.textContent = 'Atsidarys jūsų pašto programa — arba tiesiog paskambinkite +370 686 40272.';
+        return;
       }
-    });
 
-    function mailtoFallback(name, phone, email, message) {
-      var subject = 'Užklausa iš svetainės — ' + name;
-      var body = 'Vardas: ' + name + '\nTelefonas: ' + phone +
-        (email ? '\nEl. paštas: ' + email : '') +
-        '\n\nApie objektą:\n' + (message || '—');
-      window.location.href = 'mailto:podessistemos@gmail.com?subject=' +
-        encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      status.textContent = 'Atidaromas el. laiškas. Greičiausias kelias — skambutis: +370 686 40272.';
-      status.classList.add('ok');
-    }
+      status.textContent = 'Siunčiama…';
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      }).then(function (r) {
+        if (r.ok) {
+          form.reset();
+          status.textContent = 'Ačiū! Užklausą gavome — susisieksime artimiausiu metu.';
+        } else { throw new Error(); }
+      }).catch(function () {
+        status.textContent = 'Nepavyko išsiųsti. Paskambinkite +370 686 40272.';
+      });
+    });
   }
 })();

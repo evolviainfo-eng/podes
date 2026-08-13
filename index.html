@@ -4,31 +4,34 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Podes — Aliuminės stumdomos stiklo sistemos | Terasų ir balkonų stiklinimas</title>
-<meta name="description" content="Podes — aliuminės stumdomos stiklo sistemos, terasų ir balkonų stiklinimas. Gaminame pagal jūsų poreikius. Kaunas, dirbame visoje Lietuvoje. Nuo 110 €/m². Skambinkite +370 686 40272." />
-<meta name="theme-color" content="#0E0F11" />
+<meta name="description" content="Podes — aliuminės stumdomos stiklo sistemos, terasų ir balkonų stiklinimas. Gaminame Kaune pagal jūsų matmenis, montuojame visoje Lietuvoje. Nuo 110 €/m². Tel. +370 686 40272." />
+<meta name="theme-color" content="#101114" />
 <link rel="icon" href="assets/favicon.ico" sizes="any" />
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Podes — Aliuminės stumdomos stiklo sistemos" />
-<meta property="og:description" content="Terasų ir balkonų stiklinimas, aliuminės stumdomos sistemos. Kaunas, visa Lietuva. Nuo 110 €/m²." />
-<meta property="og:image" content="assets/hero.jpg" />
+<meta property="og:description" content="Terasų ir balkonų stiklinimas. Gaminame Kaune, montuojame visoje Lietuvoje. Nuo 110 €/m²." />
+<meta property="og:image" content="assets/og.jpg" />
 <meta property="og:locale" content="lt_LT" />
 
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="assets/hero.jpg" fetchpriority="high" />
 <link rel="stylesheet" href="styles.css" />
 
 <script>
-  /* Enable scroll-reveal hiding only when JS runs (no-JS = content visible),
-     and guarantee content can never stay hidden if the main script fails. */
-  document.documentElement.classList.add('reveal-on');
+  /* Hidden reveal states exist only when JS runs. The all-in hammer fires ONLY
+     if the main script never ran — otherwise it would erase scroll animations
+     before the user scrolls. script.js sets window.__podesJS. */
+  document.documentElement.classList.add('js');
   window.addEventListener('load', function () {
     setTimeout(function () {
-      var els = document.querySelectorAll('.reveal:not(.in)');
-      for (var i = 0; i < els.length; i++) els[i].classList.add('in');
-    }, 2800);
+      if (!window.__podesJS) document.documentElement.classList.add('all-in');
+    }, 2500);
   });
 </script>
 
@@ -38,7 +41,7 @@
   "@type": "LocalBusiness",
   "name": "Podes",
   "description": "Aliuminės stumdomos stiklo sistemos, terasų ir balkonų stiklinimas.",
-  "image": "assets/gallery/podes-29.jpg",
+  "image": "assets/hero.jpg",
   "telephone": "+37068640272",
   "email": "podessistemos@gmail.com",
   "address": {
@@ -60,15 +63,13 @@
 </head>
 <body>
 
-<a class="skip-link" href="#darbai">Pereiti prie turinio</a>
+<a class="skip-link" href="#sistemos">Pereiti prie turinio</a>
 
-<!-- ============ HEADER ============ -->
 <header class="site-header" id="top">
   <div class="header-inner">
-    <a class="brand" href="#top" aria-label="Podes — Aliuminės, stumdomos langų sistemos">
-      <img class="brand-logo" src="assets/podes-mark.png" alt="Podes" width="54" height="54" />
+    <a class="brand" href="#top" aria-label="Podes — pradžia">
+      <img class="brand-logo" src="assets/podes-mark.png" alt="Podes" width="44" height="44" />
     </a>
-
     <nav class="nav" aria-label="Pagrindinė navigacija">
       <a href="#sistemos">Sistemos</a>
       <a href="#darbai">Darbai</a>
@@ -76,393 +77,305 @@
       <a href="#duk">DUK</a>
       <a href="#kontaktai">Kontaktai</a>
     </nav>
-
-    <a class="header-cta" href="tel:+37068640272">
-      <span class="header-cta-dot" aria-hidden="true"></span>
-      +370 686 40272
-    </a>
-
-    <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Atidaryti meniu">
+    <a class="header-tel" href="tel:+37068640272">+370 686 40272</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Meniu">
       <span></span><span></span>
     </button>
   </div>
-
   <div class="mobile-nav" id="mobile-nav" hidden>
     <a href="#sistemos">Sistemos</a>
     <a href="#darbai">Darbai</a>
     <a href="#atsiliepimai">Atsiliepimai</a>
     <a href="#duk">DUK</a>
     <a href="#kontaktai">Kontaktai</a>
-    <a class="mobile-call" href="tel:+37068640272">Skambinti · +370 686 40272</a>
+    <a class="mobile-nav-tel" href="tel:+37068640272">Skambinti — +370 686 40272</a>
   </div>
 </header>
 
 <main>
 
   <!-- ============ HERO ============ -->
-  <section class="hero" id="hero">
-    <div class="hero-media">
-      <img src="assets/hero.jpg" alt="Įstiklinta aliuminė terasa su stumdomomis stiklo sienomis vakaro šviesoje" fetchpriority="high" width="1672" height="941" />
-      <div class="hero-scrim" aria-hidden="true"></div>
+  <section class="hero">
+    <div class="hero-media" aria-hidden="false">
+      <img src="assets/hero.jpg" alt="Podes įstiklinta terasa vakare — šilta šviesa už stumdomų stiklo sienų" fetchpriority="high" width="1672" height="941" />
     </div>
-
-    <!-- self-drawing aluminium frame -->
-    <svg class="hero-frame" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
-      <rect class="fl" x="2" y="2" width="996" height="596" />
-      <line class="fl" x1="334" y1="2" x2="334" y2="598" />
-      <line class="fl" x1="666" y1="2" x2="666" y2="598" />
-    </svg>
-
-    <div class="hero-content">
-      <p class="hero-eyebrow"><span class="tick" aria-hidden="true"></span> Aliuminės · stumdomos langų sistemos</p>
-      <h1 class="hero-title">
-        <span class="line">Terasa, atvira</span>
-        <span class="line">šviesai. <span class="accentword">Uždara</span></span>
-        <span class="line">orams.</span>
-      </h1>
-      <p class="hero-lead">Projektuojame ir gaminame aliumines stumdomas stiklo sistemas terasoms, balkonams ir moduliniams namams — pagal jūsų poreikius, visoje Lietuvoje.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#kontaktai">Gaukite pasiūlymą</a>
-        <a class="btn btn-ghost" href="tel:+37068640272">Skambinti</a>
+    <div class="hero-inner wrap">
+      <div class="hero-top">
+        <div class="hero-col">
+          <h1 class="hero-title"><span class="hl"><span class="hl-in">Atvira šviesai.</span></span><span class="hl"><span class="hl-in">Uždara orams.</span></span></h1>
+          <p class="hero-lead">Aliuminės stumdomos stiklo sistemos terasoms, balkonams ir moduliniams namams. Išmatuojame, pagaminame Kaune, sumontuojame visoje Lietuvoje.</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid" href="#kontaktai">Gauti pasiūlymą</a>
+            <a class="btn btn-line" href="tel:+37068640272">+370 686 40272</a>
+          </div>
+        </div>
+        <p class="hero-caption">Podes sumontuota stumdoma sistema</p>
       </div>
-      <ul class="hero-meta" aria-label="Faktai">
-        <li><strong>5 m.</strong> patirties</li>
-        <li><strong>nuo 110 €</strong> / m²</li>
-        <li><strong>4,8 ★</strong> paslaugos.lt</li>
-        <li><strong>100%</strong> rekomenduoja</li>
-      </ul>
+      <dl class="hero-rail">
+        <div><dt>Sistema</dt><dd>Aliuminė, stumdoma</dd></div>
+        <div><dt>Gamyba</dt><dd>Sava dirbtuvė, Kaunas</dd></div>
+        <div><dt>Montavimas</dt><dd>Visoje Lietuvoje</dd></div>
+        <div><dt>Kaina</dt><dd class="rail-price">nuo 110 €/m²</dd></div>
+      </dl>
     </div>
-
-    <a class="scroll-cue" href="#sistemos" aria-label="Slinkti žemyn">
-      <span>Slinkite</span>
-      <span class="scroll-line" aria-hidden="true"></span>
-    </a>
   </section>
 
   <!-- ============ SISTEMOS ============ -->
-  <section class="systems" id="sistemos">
-    <div class="section-head reveal">
-      <p class="section-kicker">01 — Ką gaminame</p>
-      <h2 class="section-title">Viena sistema,<br>begalė erdvių.</h2>
-      <p class="section-intro">Aliuminis ir stiklas, tiksliai pritaikyti jūsų erdvei. Stumdomos sistemos atveria visą angą vasarą ir sandariai uždaro ją žiemą — terasa tampa kambariu, balkonas — papildoma erdve.</p>
+  <section class="section" id="sistemos">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">01 — Sistemos</p>
+        <h2 class="section-title">Keturi sprendimai. Viena dirbtuvė.</h2>
+        <p class="section-intro">Projektuojame, gaminame ir montuojame patys — vienas kontaktas nuo matavimų iki paskutinio stiklo. Imamės ir nestandartinių angų, kurių kiti atsisako.</p>
+      </div>
+      <div class="table-scroll reveal">
+        <table class="sys-table">
+          <thead>
+            <tr>
+              <th scope="col">Sistema</th>
+              <th scope="col">Kam skirta</th>
+              <th scope="col">Konstrukcija</th>
+              <th scope="col" class="t-num">Kaina</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Terasų stiklinimas</th>
+              <td>Lauko terasoms prie namo</td>
+              <td>Bekarkasė arba aliuminio rėmas</td>
+              <td class="t-num t-price">nuo 110 €/m²</td>
+            </tr>
+            <tr>
+              <th scope="row">Balkonų stiklinimas</th>
+              <td>Butams ir lodžijoms</td>
+              <td>Aliuminio profilis</td>
+              <td class="t-num t-price">nuo 110 €/m²</td>
+            </tr>
+            <tr>
+              <th scope="row">Stumdomos stiklo sienos</th>
+              <td>Kavinėms, vitrinoms, moduliniams namukams</td>
+              <td>Aliuminis, minimalus rėmas</td>
+              <td class="t-num t-price">nuo 110 €/m²</td>
+            </tr>
+            <tr>
+              <th scope="row">Langų montavimas</th>
+              <td>Nestandartinėms angoms</td>
+              <td>Pagal individualius matmenis</td>
+              <td class="t-num">pagal projektą</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note reveal">Tikslią kainą pateikiame įvertinę objektą — be įsipareigojimų.</p>
     </div>
-
-    <ol class="system-list">
-      <li class="system-row reveal">
-        <span class="system-num">01</span>
-        <div class="system-body">
-          <h3>Terasų stiklinimas</h3>
-          <p>Stumdomos bekarkasinės ir aliuminės sistemos, kurios terasą paverčia šviesia, nuo vėjo ir lietaus apsaugota erdve ištisus metus.</p>
-        </div>
-        <span class="system-price">nuo 110 €/m²</span>
-      </li>
-      <li class="system-row reveal">
-        <span class="system-num">02</span>
-        <div class="system-body">
-          <h3>Balkonų stiklinimas</h3>
-          <p>Tvarkingas, sandarus balkono įstiklinimas aliuminio profiliais. Daugiau tylos, šilumos ir naudingo ploto bute.</p>
-        </div>
-        <span class="system-price">nuo 110 €/m²</span>
-      </li>
-      <li class="system-row reveal">
-        <span class="system-num">03</span>
-        <div class="system-body">
-          <h3>Aliuminės stumdomos sistemos</h3>
-          <p>Vitrininiai langai ir stumdomos stiklo sienos namams, kavinėms ir moduliniams namukams — minimalūs rėmai, maksimalus stiklas.</p>
-        </div>
-        <span class="system-price">nuo 110 €/m²</span>
-      </li>
-      <li class="system-row reveal">
-        <span class="system-num">04</span>
-        <div class="system-body">
-          <h3>Langų montavimas</h3>
-          <p>Gaminame ir montuojame langus pagal individualius matmenis. Imamės ir nestandartinių sprendimų, kurių kiti vengia.</p>
-        </div>
-        <span class="system-price">pagal projektą</span>
-      </li>
-    </ol>
   </section>
 
-  <!-- ============ THRESHOLD ACT ============ -->
-  <section class="threshold" id="patirtis" aria-label="Erdvės pojūtis">
-    <img src="assets/gallery/podes-16.jpg" alt="Įstiklinta terasa saulėlydžio metu, jauki vakaro erdvė už stiklo" loading="lazy" width="1024" height="1536" />
-    <div class="threshold-scrim" aria-hidden="true"></div>
-    <svg class="threshold-frame" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
-      <rect class="fl" x="40" y="40" width="920" height="520" />
-    </svg>
-    <div class="threshold-copy reveal">
-      <p class="threshold-kicker">Visa esmė</p>
-      <p class="threshold-line">Vakaras terasoje —<br>bet kuriuo metų laiku.</p>
+  <!-- ============ PROFILIS (striking act) ============ -->
+  <section class="act" id="profilis" aria-label="Kaip veikia stumdoma sistema">
+    <div class="wrap act-grid">
+      <figure class="act-drawing" aria-hidden="true">
+        <svg viewBox="0 0 880 560" fill="none" preserveAspectRatio="xMidYMid meet">
+          <!-- dimension line -->
+          <line class="dl" x1="90" y1="58" x2="710" y2="58" pathLength="1" />
+          <line class="dl" x1="90" y1="48" x2="90" y2="68" pathLength="1" />
+          <line class="dl" x1="710" y1="48" x2="710" y2="68" pathLength="1" />
+          <text class="dt" x="400" y="42" text-anchor="middle">ANGA — PAGAL JŪSŲ MATAVIMUS</text>
+          <!-- frame -->
+          <rect class="dl dl-frame" x="90" y="90" width="620" height="380" pathLength="1" />
+          <rect class="dl" x="104" y="104" width="592" height="352" pathLength="1" />
+          <!-- mullions -->
+          <line class="dl" x1="252" y1="104" x2="252" y2="456" pathLength="1" />
+          <line class="dl" x1="400" y1="104" x2="400" y2="456" pathLength="1" />
+          <line class="dl" x1="548" y1="104" x2="548" y2="456" pathLength="1" />
+          <!-- glass hatches -->
+          <line class="dl dl-thin" x1="146" y1="312" x2="212" y2="246" pathLength="1" />
+          <line class="dl dl-thin" x1="160" y1="326" x2="226" y2="260" pathLength="1" />
+          <line class="dl dl-thin" x1="442" y1="312" x2="508" y2="246" pathLength="1" />
+          <line class="dl dl-thin" x1="456" y1="326" x2="522" y2="260" pathLength="1" />
+          <!-- ground -->
+          <line class="dl dl-thin" x1="24" y1="500" x2="856" y2="500" pathLength="1" />
+          <!-- slide arrow -->
+          <line class="dl" x1="540" y1="530" x2="306" y2="530" pathLength="1" />
+          <path class="dl" d="M320 522 L306 530 L320 538" pathLength="1" />
+          <!-- markers -->
+          <g class="mk"><circle cx="400" cy="470" r="13" /><text x="400" y="475" text-anchor="middle">1</text></g>
+          <g class="mk"><circle cx="326" cy="280" r="13" /><text x="326" y="285" text-anchor="middle">2</text></g>
+          <g class="mk"><circle cx="548" cy="300" r="13" /><text x="548" y="305" text-anchor="middle">3</text></g>
+        </svg>
+      </figure>
+      <div class="act-copy reveal">
+        <p class="kicker">Kaip tai veikia</p>
+        <h2 class="section-title">Vasarą — atvira.<br>Žiemą — sandari.</h2>
+        <ol class="act-notes">
+          <li><span class="an-num">1</span><p>Aliuminio bėgelis — skydai slysta atskirais takeliais ir prasilenkia tarpusavyje.</p></li>
+          <li><span class="an-num">2</span><p>Stiklo skydai — kiekvienas pagaminamas pagal tikslų jūsų angos matmenį.</p></li>
+          <li><span class="an-num">3</span><p>Atsidaro ranka — vasarą sustumiate visą sieną, žiemą sandariai uždarote.</p></li>
+        </ol>
+      </div>
     </div>
   </section>
 
   <!-- ============ DARBAI ============ -->
-  <section class="works" id="darbai">
-    <div class="section-head reveal">
-      <p class="section-kicker">02 — Darbai</p>
-      <h2 class="section-title">Tikras stiklas.<br>Tikri objektai.</h2>
-      <p class="section-intro">Terasos, balkonai ir moduliniai namukai, įstiklinti visoje Lietuvoje. Kiekvieną sistemą pagaminame ir sumontuojame patys.</p>
+  <section class="section" id="darbai">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">02 — Darbai</p>
+        <h2 class="section-title">Tikras stiklas. Tikri objektai.</h2>
+        <p class="section-intro">Terasos, balkonai ir moduliniai namukai visoje Lietuvoje. Kiekvieną sistemą pagaminome ir sumontavome patys.</p>
+      </div>
+      <div class="gallery collapsed" id="gallery">
+        <figure class="g-item g-w reveal" data-cap="Įstiklinta terasa — stumdoma sistema">
+          <img src="assets/gallery/podes-54.jpg" alt="Moderni įstiklinta terasa, antracito rėmai, medinis pagrindas" loading="lazy" width="1214" height="1063" />
+          <figcaption>Įstiklinta terasa — stumdoma sistema</figcaption>
+        </figure>
+        <figure class="g-item g-n reveal" data-cap="Terasa iš vidaus — aliuminio profilis">
+          <img src="assets/gallery/podes-34.jpg" alt="Įstiklintos terasos vidus su baldais" loading="lazy" width="1350" height="1640" />
+          <figcaption>Terasa iš vidaus — aliuminio profilis</figcaption>
+        </figure>
+        <figure class="g-item g-n reveal" data-cap="Kampinė stumdoma sistema">
+          <img src="assets/gallery/podes-25.jpg" alt="Kampinis terasos stiklinimas su kubilu" loading="lazy" width="1161" height="1444" />
+          <figcaption>Kampinė stumdoma sistema</figcaption>
+        </figure>
+        <figure class="g-item g-w reveal" data-cap="Terasos stiklinimas ant medinio deko">
+          <img src="assets/gallery/podes-08.jpg" alt="Ilga stumdoma terasos sistema ant medinio deko" loading="lazy" width="1800" height="1350" />
+          <figcaption>Terasos stiklinimas ant medinio deko</figcaption>
+        </figure>
+        <figure class="g-item g-w reveal" data-cap="Stumdoma sistema — antracito rėmai">
+          <img src="assets/gallery/podes-26.jpg" alt="Stumdoma aliuminė stiklo sistema, antracito rėmai" loading="lazy" width="1478" height="952" />
+          <figcaption>Stumdoma sistema — antracito rėmai</figcaption>
+        </figure>
+        <figure class="g-item g-n reveal" data-cap="Terasa prie namo — aliuminio rėmas">
+          <img src="assets/gallery/podes-48.jpg" alt="Įstiklinta terasa prie gyvenamojo namo" loading="lazy" width="1200" height="1441" />
+          <figcaption>Terasa prie namo — aliuminio rėmas</figcaption>
+        </figure>
+        <figure class="g-item g-n reveal" data-cap="Įstiklinta pavėsinė">
+          <img src="assets/gallery/podes-55.jpg" alt="Tamsaus mūro pavėsinė su stumdomais stiklais" loading="lazy" width="1200" height="1429" />
+          <figcaption>Įstiklinta pavėsinė</figcaption>
+        </figure>
+        <figure class="g-item g-w reveal" data-cap="Stiklinimas pagal angą">
+          <img src="assets/gallery/podes-36.jpg" alt="Vitrininis kampo stiklinimas smėlio spalvos name" loading="lazy" width="1456" height="1169" />
+          <figcaption>Stiklinimas pagal angą</figcaption>
+        </figure>
+        <figure class="g-item g-full reveal" data-cap="Terasos stiklinimas — visa siena">
+          <img src="assets/gallery/podes-07.jpg" alt="Ilga įstiklinta terasa su tamsiais aliuminio profiliais" loading="lazy" width="1800" height="1350" />
+          <figcaption>Terasos stiklinimas — visa siena</figcaption>
+        </figure>
+      </div>
+      <button class="gallery-more btn btn-line" type="button" aria-expanded="false" aria-controls="gallery">Rodyti visus darbus</button>
+      <div class="works-foot reveal">
+        <p>Daugiau darbų — <a class="t-link" href="https://www.facebook.com/aliumineslangusistemos" target="_blank" rel="noopener">Facebook galerijoje</a>.</p>
+        <a class="btn btn-line" href="#kontaktai">Noriu tokio sprendimo</a>
+      </div>
     </div>
-
-    <div class="gallery" id="gallery">
-      <!-- populated as a masonry; figure captions describe the work type honestly -->
-      <figure class="g-item reveal" data-src="assets/gallery/podes-54.jpg" data-cap="Įstiklinta terasa su mediniu pakylimu">
-        <img src="assets/gallery/podes-54.jpg" alt="Moderni įstiklinta terasa, anthracito rėmai, medinis pagrindas" loading="lazy" />
-        <figcaption>Įstiklinta terasa</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-04.jpg" data-cap="Terasos stiklinimas prie gyvenamojo namo">
-        <img src="assets/gallery/podes-04.jpg" alt="Aliuminė stumdoma terasos sistema prie namo" loading="lazy" />
-        <figcaption>Terasos stiklinimas</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-01.jpg" data-cap="Įstiklinta terasa po pergole">
-        <img src="assets/gallery/podes-01.jpg" alt="Įstiklinta terasa po medine pergole" loading="lazy" />
-        <figcaption>Terasa po pergole</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-26.jpg" data-cap="Aliuminė stumdoma sistema prie balto namo">
-        <img src="assets/gallery/podes-26.jpg" alt="Stumdoma aliuminė stiklo sistema prie balto namo" loading="lazy" />
-        <figcaption>Stumdoma sistema</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-08.jpg" data-cap="Terasos stiklinimas, stumdomos durys">
-        <img src="assets/gallery/podes-08.jpg" alt="Terasos stiklinimas su stumdomomis stiklo durimis" loading="lazy" />
-        <figcaption>Stumdomos durys</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-34.jpg" data-cap="Įstiklintos terasos vidus">
-        <img src="assets/gallery/podes-34.jpg" alt="Įstiklintos terasos vidus su baldais" loading="lazy" />
-        <figcaption>Erdvė iš vidaus</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-36.jpg" data-cap="Kampinė stumdoma sistema">
-        <img src="assets/gallery/podes-36.jpg" alt="Kampinė aliuminė stumdoma stiklo sistema" loading="lazy" />
-        <figcaption>Kampinis stiklinimas</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-27.jpg" data-cap="Plati įstiklinta terasa">
-        <img src="assets/gallery/podes-27.jpg" alt="Plati įstiklinta terasa su stumdomais stiklais" loading="lazy" />
-        <figcaption>Plati terasa</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-25.jpg" data-cap="Tamsių rėmų terasa">
-        <img src="assets/gallery/podes-25.jpg" alt="Įstiklinta terasa su tamsiais aliuminio rėmais" loading="lazy" />
-        <figcaption>Anthracito rėmai</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-37.jpg" data-cap="Terasa su medine terasine danga">
-        <img src="assets/gallery/podes-37.jpg" alt="Įstiklinta terasa su medine danga vakaro metu" loading="lazy" />
-        <figcaption>Terasa su deku</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-18.jpg" data-cap="Terasos priestatas su stiklu">
-        <img src="assets/gallery/podes-18.jpg" alt="Įstiklintas terasos priestatas, giedras dangus" loading="lazy" />
-        <figcaption>Stiklo priestatas</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-55.jpg" data-cap="Terasos kampas su stumdomais stiklais">
-        <img src="assets/gallery/podes-55.jpg" alt="Įstiklintos terasos kampas su mediniu pakylimu" loading="lazy" />
-        <figcaption>Terasos kampas</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-12.jpg" data-cap="Stumdoma terasos sistema">
-        <img src="assets/gallery/podes-12.jpg" alt="Plati stumdoma aliuminė terasos sistema" loading="lazy" />
-        <figcaption>Stumdoma terasa</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-29.jpg" data-cap="Stumdoma sistema prie balto namo">
-        <img src="assets/gallery/podes-29.jpg" alt="Aliuminė stumdoma stiklo terasa prie balto namo" loading="lazy" />
-        <figcaption>Terasos priestatas</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-31.jpg" data-cap="Tamsių rėmų terasos kampas">
-        <img src="assets/gallery/podes-31.jpg" alt="Įstiklintos terasos kampas su tamsiais rėmais" loading="lazy" />
-        <figcaption>Kampas iš arti</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-07.jpg" data-cap="Įstiklinta terasa, tamsūs rėmai">
-        <img src="assets/gallery/podes-07.jpg" alt="Įstiklinta terasa su tamsiais aliuminio profiliais" loading="lazy" />
-        <figcaption>Terasos sistema</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-48.jpg" data-cap="Stumdoma stiklo siena">
-        <img src="assets/gallery/podes-48.jpg" alt="Stumdoma aliuminė stiklo siena terasoje" loading="lazy" />
-        <figcaption>Stiklo siena</figcaption>
-      </figure>
-      <figure class="g-item reveal" data-src="assets/gallery/podes-38.jpg" data-cap="Terasa su mediniu deku ir stiklu">
-        <img src="assets/gallery/podes-38.jpg" alt="Įstiklinta terasa su mediniu deku" loading="lazy" />
-        <figcaption>Terasa ir dekas</figcaption>
-      </figure>
-    </div>
-
-    <button class="gallery-toggle" type="button" aria-expanded="false" aria-controls="gallery">
-      Rodyti visus darbus
-    </button>
-
-    <div class="works-foot reveal">
-      <p>Daugiau darbų — mūsų <a href="https://www.facebook.com/aliumineslangusistemos" target="_blank" rel="noopener">Facebook galerijoje</a>.</p>
-      <a class="btn btn-dark" href="#kontaktai">Noriu tokio sprendimo</a>
-    </div>
-  </section>
-
-  <!-- ============ PANORAMA BREAK ============ -->
-  <section class="pano" aria-hidden="true">
-    <img src="assets/pano.jpg" alt="" loading="lazy" />
   </section>
 
   <!-- ============ ATSILIEPIMAI ============ -->
-  <section class="reviews" id="atsiliepimai">
-    <div class="section-head reveal">
-      <p class="section-kicker">03 — Atsiliepimai</p>
-      <h2 class="section-title">Ką sako<br>užsakovai.</h2>
-      <div class="reviews-proof">
-        <span><strong>4,8 / 5</strong> paslaugos.lt · 7 atsiliepimai</span>
-        <span><strong>100%</strong> rekomenduoja · Facebook</span>
+  <section class="section" id="atsiliepimai">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">03 — Atsiliepimai</p>
+        <h2 class="section-title">Ką sako užsakovai.</h2>
+        <p class="proof-line">4,8 / 5 — paslaugos.lt, 7 atsiliepimai · 100 % rekomenduoja — Facebook</p>
+      </div>
+      <blockquote class="review-lead reveal">
+        <p>„Puikus darbas — įstiklinta nestandartinė terasa. Vyrai neišsigando, apsiėmė ir padarė, kai daugelis kitų pabijojo. Geriausia kaina, darbai kokybiški ir net anksčiau laiko.“</p>
+        <footer>Arūnas — terasos stiklinimas, 2025</footer>
+      </blockquote>
+      <div class="review-grid">
+        <blockquote class="review reveal">
+          <p>„Svajonių terasą jau turime. Darbai kokybiški, bendravimas puikus.“</p>
+          <footer>Ramunė — 2025</footer>
+        </blockquote>
+        <blockquote class="review reveal">
+          <p>„Kokybiškai, tvarkingai ir greitai atliko terasos stiklinimo darbus.“</p>
+          <footer>Nerijus — 2024</footer>
+        </blockquote>
+        <blockquote class="review reveal">
+          <p>„Puikiai atliktas darbas, malonus ir operatyvus bendravimas.“</p>
+          <footer>Sandra — 2024</footer>
+        </blockquote>
       </div>
     </div>
-
-    <div class="review-grid">
-      <blockquote class="review reveal">
-        <p>„Puikus darbas — įstiklinta nestandartinė terasa. Vyrai neišsigando, apsiėmė ir padarė, kai daugelis kitų pabijojo. Geriausia kaina, darbai kokybiški ir net anksčiau laiko.“</p>
-        <footer><span class="r-name">Arūnas</span><span class="r-meta">2025 · terasos stiklinimas</span></footer>
-      </blockquote>
-      <blockquote class="review reveal">
-        <p>„Svajonių terasą jau turime. Darbai kokybiški, bendravimas puikus.“</p>
-        <footer><span class="r-name">Ramunė</span><span class="r-meta">2025 · terasos stiklinimas</span></footer>
-      </blockquote>
-      <blockquote class="review reveal">
-        <p>„Kokybiškai, tvarkingai ir greitai atliko terasos stiklinimo darbus.“</p>
-        <footer><span class="r-name">Nerijus</span><span class="r-meta">2024 · terasos stiklinimas</span></footer>
-      </blockquote>
-      <blockquote class="review reveal">
-        <p>„Puikiai atliktas darbas, malonus ir operatyvus bendravimas.“</p>
-        <footer><span class="r-name">Sandra</span><span class="r-meta">2024 · stiklinimas</span></footer>
-      </blockquote>
-    </div>
-  </section>
-
-  <!-- ============ KODĖL PODES ============ -->
-  <section class="why" id="kodel">
-    <div class="section-head reveal">
-      <p class="section-kicker">04 — Kodėl Podes</p>
-      <h2 class="section-title">Imamės to,<br>ko kiti vengia.</h2>
-    </div>
-    <ol class="why-list">
-      <li class="reveal">
-        <span class="why-num">01</span>
-        <h3>Nestandartiniai sprendimai</h3>
-        <p>Netaisyklinga terasa ar sudėtingas kampas? Apsiimame darbus, kurių kiti atsisako — ir pagaminame tiksliai pagal vietą.</p>
-      </li>
-      <li class="reveal">
-        <span class="why-num">02</span>
-        <h3>Kaina ir kokybė</h3>
-        <p>Geras kainos ir kokybės santykis. Aliuminės sistemos nuo 110 €/m², be paslėptų priemokų — tikslią kainą pateikiame įvertinę objektą.</p>
-      </li>
-      <li class="reveal">
-        <span class="why-num">03</span>
-        <h3>Gaminame patys</h3>
-        <p>Sistemas projektuojame, gaminame ir montuojame patys. Vienas atsakingas kontaktas nuo matavimų iki paskutinio stiklo.</p>
-      </li>
-      <li class="reveal">
-        <span class="why-num">04</span>
-        <h3>Garantija ir tvarka</h3>
-        <p>Suteikiame garantiją atliktiems darbams ir sumontuotoms sistemoms. Dirbame tvarkingai, terminų laikomės — neretai baigiame anksčiau.</p>
-      </li>
-    </ol>
   </section>
 
   <!-- ============ DUK ============ -->
-  <section class="faq" id="duk">
-    <div class="section-head reveal">
-      <p class="section-kicker">05 — DUK</p>
-      <h2 class="section-title">Dažni<br>klausimai.</h2>
-    </div>
-    <div class="faq-list reveal">
-      <details class="faq-item">
-        <summary>Kiek kainuoja terasos ar balkono stiklinimas?</summary>
-        <div class="faq-a"><p>Kaina priklauso nuo pasirinktos sistemos ir ploto — pradedant nuo 110 €/m². Tikslų pasiūlymą pateikiame įvertinę jūsų objektą, be jokių įsipareigojimų.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>Ar imatės nestandartinių terasų?</summary>
-        <div class="faq-a"><p>Taip. Dažnai apsiimame darbus, kurių kiti atsisako — netaisyklingos formos terasas, sudėtingus kampus ir individualius sprendimus. Gaminame pagal jūsų poreikius.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>Per kiek laiko atliekate darbus?</summary>
-        <div class="faq-a"><p>Terminą suderiname įvertinę objektą ir sistemos gamybos apimtį. Dirbame tvarkingai ir laikomės susitarimo — neretai darbus užbaigiame net anksčiau numatyto laiko.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>Kokią garantiją suteikiate?</summary>
-        <div class="faq-a"><p>Suteikiame garantiją atliktiems montavimo darbams ir sumontuotoms aliuminio bei stiklo sistemoms. Garantijos sąlygas aptariame sutartyje.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>Ar dirbate visoje Lietuvoje?</summary>
-        <div class="faq-a"><p>Taip. Esame įsikūrę Kaune (Pienių g. 16), o darbus atliekame visoje Lietuvoje.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>Kokias sistemas gaminate?</summary>
-        <div class="faq-a"><p>Aliumines stumdomas stiklo sistemas, vitrininius langus, terasų ir balkonų stiklinimą bei langų montavimą lauko terasoms, balkonams, moduliniams namukams, kavinėms ir namams.</p></div>
-      </details>
+  <section class="section" id="duk">
+    <div class="wrap duk-grid">
+      <div class="section-head reveal">
+        <p class="kicker">04 — DUK</p>
+        <h2 class="section-title">Dažni klausimai.</h2>
+      </div>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>Kiek kainuoja terasos ar balkono stiklinimas?</summary>
+          <div class="faq-a"><p>Nuo 110 €/m² — kaina priklauso nuo sistemos ir ploto. Tikslų pasiūlymą pateikiame įvertinę jūsų objektą, be įsipareigojimų.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Ar imatės nestandartinių terasų?</summary>
+          <div class="faq-a"><p>Taip. Dažnai apsiimame darbus, kurių kiti atsisako — netaisyklingas formas, sudėtingus kampus, individualius sprendimus.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Per kiek laiko atliekate darbus?</summary>
+          <div class="faq-a"><p>Terminą suderiname įvertinę objektą ir gamybos apimtį. Susitarimo laikomės — neretai baigiame anksčiau laiko.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Kokią garantiją suteikiate?</summary>
+          <div class="faq-a"><p>Garantiją suteikiame ir montavimo darbams, ir sumontuotoms sistemoms. Sąlygas aptariame sutartyje.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Ar dirbate visoje Lietuvoje?</summary>
+          <div class="faq-a"><p>Taip. Dirbtuvė — Kaune (Pienių g. 16), montuojame visoje Lietuvoje.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Kokias sistemas gaminate?</summary>
+          <div class="faq-a"><p>Aliumines stumdomas stiklo sistemas, vitrininius langus, terasų ir balkonų stiklinimą — namams, kavinėms, moduliniams namukams.</p></div>
+        </details>
+      </div>
     </div>
   </section>
 
   <!-- ============ KONTAKTAI ============ -->
-  <section class="contact" id="kontaktai">
-    <div class="contact-grid">
+  <section class="section" id="kontaktai">
+    <div class="wrap contact-grid">
       <div class="contact-info reveal">
-        <p class="section-kicker">06 — Susisiekime</p>
-        <h2 class="section-title">Gaukite<br>pasiūlymą.</h2>
-        <p class="contact-intro">Papasakokite apie savo terasą ar balkoną — atsakysime su konkrečiu pasiūlymu. Greičiausias kelias yra skambutis.</p>
-
-        <ul class="contact-points">
-          <li>
-            <span class="cp-label">Telefonas</span>
-            <a class="cp-value" href="tel:+37068640272">+370 686 40272</a>
-          </li>
-          <li>
-            <span class="cp-label">El. paštas</span>
-            <a class="cp-value" href="mailto:podessistemos@gmail.com">podessistemos@gmail.com</a>
-          </li>
-          <li>
-            <span class="cp-label">Dirbtuvė</span>
-            <span class="cp-value">Pienių g. 16, Kaunas, LT-47446</span>
-          </li>
-          <li>
-            <span class="cp-label">Teritorija</span>
-            <span class="cp-value">Kaunas · dirbame visoje Lietuvoje</span>
-          </li>
-          <li>
-            <span class="cp-label">Darbo laikas</span>
-            <span class="cp-value">Skambinkite bet kada — visada atsiliepiame</span>
-          </li>
-        </ul>
-
-        <a class="fb-link" href="https://www.facebook.com/aliumineslangusistemos" target="_blank" rel="noopener">
-          Facebook · 2,4 tūkst. sekėjų →
-        </a>
+        <p class="kicker">05 — Kontaktai</p>
+        <h2 class="section-title">Gaukite pasiūlymą.</h2>
+        <p class="section-intro">Papasakokite apie savo terasą ar balkoną — grįšime su konkrečiu pasiūlymu. Greičiausias kelias — skambutis.</p>
+        <dl class="contact-points">
+          <div><dt>Telefonas</dt><dd><a href="tel:+37068640272">+370 686 40272</a></dd></div>
+          <div><dt>El. paštas</dt><dd><a href="mailto:podessistemos@gmail.com">podessistemos@gmail.com</a></dd></div>
+          <div><dt>Dirbtuvė</dt><dd>Pienių g. 16, Kaunas, LT-47446</dd></div>
+          <div><dt>Facebook</dt><dd><a href="https://www.facebook.com/aliumineslangusistemos" target="_blank" rel="noopener">aliumineslangusistemos</a></dd></div>
+        </dl>
       </div>
-
-      <div class="contact-form-wrap reveal">
-        <form class="contact-form" id="quote-form" action="https://formspree.io/f/your-form-id" method="POST" novalidate>
-          <div class="field">
-            <label for="name">Vardas <span aria-hidden="true">*</span></label>
-            <input id="name" name="name" type="text" autocomplete="name" required />
-            <span class="err" data-for="name"></span>
-          </div>
-          <div class="field">
-            <label for="phone">Telefonas <span aria-hidden="true">*</span></label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
-            <span class="err" data-for="phone"></span>
-          </div>
-          <div class="field">
-            <label for="email">El. paštas</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" />
-            <span class="err" data-for="email"></span>
-          </div>
-          <div class="field">
-            <label for="message">Apie objektą</label>
-            <textarea id="message" name="message" rows="4" placeholder="Pvz.: 12 m² terasa, norėčiau stumdomos sistemos…"></textarea>
-          </div>
-          <button class="btn btn-primary btn-block" type="submit">Siųsti užklausą</button>
-          <p class="form-note">Paspaudę „Siųsti“ sutinkate, kad susisieksime dėl jūsų užklausos.</p>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
+      <form class="contact-form reveal" id="quote-form" action="https://formspree.io/f/your-form-id" method="POST" novalidate>
+        <div class="field">
+          <label for="name">Vardas</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+          <span class="err" data-for="name"></span>
+        </div>
+        <div class="field">
+          <label for="phone">Telefonas</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+          <span class="err" data-for="phone"></span>
+        </div>
+        <div class="field">
+          <label for="message">Apie objektą</label>
+          <textarea id="message" name="message" rows="4" placeholder="Pvz.: 12 m² terasa, norėčiau stumdomos sistemos"></textarea>
+        </div>
+        <button class="btn btn-solid btn-block" type="submit">Gauti pasiūlymą</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 
 </main>
 
-<!-- ============ FOOTER ============ -->
 <footer class="site-footer">
-  <div class="footer-inner">
+  <div class="wrap footer-inner">
     <div class="footer-brand">
-      <img class="footer-logo" src="assets/podes-mark.png" alt="Podes" width="78" height="78" />
-      <p>Aliuminės, stumdomos langų sistemos.<br>Terasų ir balkonų stiklinimas.</p>
+      <img src="assets/podes-mark.png" alt="Podes" width="40" height="40" />
+      <p>Aliuminės stumdomos stiklo sistemos.<br>Terasų ir balkonų stiklinimas.</p>
     </div>
     <nav class="footer-nav" aria-label="Poraštė">
       <a href="#sistemos">Sistemos</a>
@@ -477,13 +390,14 @@
       <span>Pienių g. 16, Kaunas</span>
     </div>
   </div>
-  <div class="footer-base">
-    <span>© <span id="year"></span> Podes. Visos teisės saugomos.</span>
-    <span>Kaunas · visa Lietuva</span>
+  <div class="wrap footer-base">
+    <span>© <span id="year"></span> Podes</span>
+    <span>Kaunas — visa Lietuva</span>
   </div>
 </footer>
 
-<!-- ============ LIGHTBOX ============ -->
+<a class="call-bar" href="tel:+37068640272" hidden>Skambinti — +370 686 40272</a>
+
 <div class="lightbox" id="lightbox" hidden aria-hidden="true">
   <button class="lb-close" aria-label="Uždaryti">✕</button>
   <button class="lb-prev" aria-label="Ankstesnis">‹</button>
@@ -494,6 +408,7 @@
   <button class="lb-next" aria-label="Kitas">›</button>
 </div>
 
+<script src="assets/lenis.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
