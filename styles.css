@@ -862,24 +862,6 @@ html:not(.js) .gallery-more { display: none; }
 
 /* ---------- reveals ---------- */
 
-/* gallery items: the figure is observed, the img is clipped (clip on the
-   observed element itself would zero its area and IO would never fire) */
-html.js .g-item.reveal { opacity: 1; transform: none; }
-html.js .g-item.reveal img {
-  clip-path: inset(0 0 100% 0);
-  transition: clip-path 900ms var(--ease-big), transform var(--t-image) var(--ease);
-}
-html.js .g-item.reveal.in img, html.js.all-in .g-item.reveal img {
-  clip-path: inset(0 0 0 0);
-}
-html.js .g-item.reveal figcaption {
-  opacity: 0;
-  transition: opacity 380ms linear 300ms;
-}
-html.js .g-item.reveal.in figcaption, html.js.all-in .g-item.reveal figcaption { opacity: 1; }
-html.js .gallery .reveal:nth-child(2n) img { transition-delay: 80ms; }
-html.js.all-in .gallery .reveal img { transition-delay: 0ms; }
-
 html.js .reveal {
   opacity: 0;
   transform: translateY(14px);
@@ -890,7 +872,6 @@ html.js .reveal.in, html.js.all-in .reveal {
   transform: none;
 }
 /* choreography: siblings inside one section arrive as one gesture */
-html.js .gallery .reveal:nth-child(2n) { transition-delay: 80ms; }
 html.js .review-grid .reveal:nth-child(2) { transition-delay: 80ms; }
 html.js .review-grid .reveal:nth-child(3) { transition-delay: 160ms; }
 html.js.all-in .reveal { transition-delay: 0ms; }
@@ -911,7 +892,5 @@ html.js.all-in .reveal { transition-delay: 0ms; }
   html.js .hero:not(.hero-in) .hero-lead,
   html.js .hero:not(.hero-in) .hero-actions,
   html.js .hero:not(.hero-in) .hero-rail { opacity: 1; transform: none; }
-  html.js .g-item.reveal img { clip-path: none; }
-  html.js .g-item.reveal figcaption { opacity: 1; }
   .g-item:hover img { transform: none; }
 }
